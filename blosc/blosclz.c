@@ -48,7 +48,7 @@
 
 #ifdef BLOSC_STRICT_ALIGN
   #define BLOSCLZ_READU16(p) ((p)[0] | (p)[1]<<8)
-  #define BLOSCLZ_READU32(p) ((p)[0] | (p)[1]<<8 | (p)[2]<<16 | (p)[3]<<24)
+  #define BLOSCLZ_READU32(p) ((uint32_t)((p)[0]) | (uint32_t)((p)[1])<<8 | (uint32_t)((p)[2])<<16 | (uint32_t)((p)[3])<<24)
 #else
   #define BLOSCLZ_READU16(p) *((const uint16_t*)(p))
   #define BLOSCLZ_READU32(p) *((const uint32_t*)(p))
