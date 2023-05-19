@@ -1034,7 +1034,7 @@ int64_t frame_from_schunk(blosc2_schunk *schunk, blosc2_frame_s *frame) {
 
   // Copy the offsets chunk at the end of the frame
   if (frame->urlpath == NULL) {
-    memcpy(frame->cframe + h2len + cbytes, off_chunk, off_cbytes);
+    if (off_chunk != NULL) memcpy(frame->cframe + h2len + cbytes, off_chunk, off_cbytes);
   }
   else {
     io_cb->write(off_chunk, off_cbytes, 1, fp);

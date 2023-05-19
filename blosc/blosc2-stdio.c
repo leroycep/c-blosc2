@@ -52,6 +52,8 @@ int blosc2_stdio_seek(void *stream, int64_t offset, int whence) {
 }
 
 int64_t blosc2_stdio_write(const void *ptr, int64_t size, int64_t nitems, void *stream) {
+  if (ptr == NULL) return 0;
+
   blosc2_stdio_file *my_fp = (blosc2_stdio_file *) stream;
 
   size_t nitems_ = fwrite(ptr, (size_t) size, (size_t) nitems, my_fp->file);
