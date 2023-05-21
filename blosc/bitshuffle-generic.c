@@ -196,7 +196,7 @@ int64_t bshuf_shuffle_bit_eightelem_scal(const void* in, void* out, \
 
     for (jj = 0; jj < 8 * elem_size; jj += 8) {
         for (ii = 0; ii + 8 * elem_size - 1 < nbyte; ii += 8 * elem_size) {
-            x = *((uint64_t*) &in_b[ii + jj]);
+            memcpy(&x, &in_b[ii + jj], sizeof(uint64_t));
             if (little_endian) {
                 TRANS_BIT_8X8(x, t);
             } else {

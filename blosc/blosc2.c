@@ -1512,39 +1512,8 @@ static int32_t set_values(int32_t typesize, const uint8_t* src, uint8_t* dest, i
     return 0;
   }
 
-  switch (typesize) {
-    case 8:
-      val8 = ((int64_t*)(src + BLOSC_EXTENDED_HEADER_LENGTH))[0];
-      dest8 = (int64_t*)dest;
-      for (int i = 0; i < nitems; i++) {
-        dest8[i] = val8;
-      }
-      break;
-    case 4:
-      val4 = ((int32_t*)(src + BLOSC_EXTENDED_HEADER_LENGTH))[0];
-      dest4 = (int32_t*)dest;
-      for (int i = 0; i < nitems; i++) {
-        dest4[i] = val4;
-      }
-      break;
-    case 2:
-      val2 = ((int16_t*)(src + BLOSC_EXTENDED_HEADER_LENGTH))[0];
-      dest2 = (int16_t*)dest;
-      for (int i = 0; i < nitems; i++) {
-        dest2[i] = val2;
-      }
-      break;
-    case 1:
-      val1 = ((int8_t*)(src + BLOSC_EXTENDED_HEADER_LENGTH))[0];
-      dest1 = (int8_t*)dest;
-      for (int i = 0; i < nitems; i++) {
-        dest1[i] = val1;
-      }
-      break;
-    default:
-      for (int i = 0; i < nitems; i++) {
-        memcpy(dest + i * typesize, src + BLOSC_EXTENDED_HEADER_LENGTH, typesize);
-      }
+  for (int i = 0; i < nitems; i++) {
+    memcpy(dest + i * typesize, src + BLOSC_EXTENDED_HEADER_LENGTH, typesize);
   }
 
   return nitems;
@@ -1611,7 +1580,7 @@ static int blosc_d(
     int64_t chunk_offset;
     // The nchunk and the offset of the current chunk are in the trailer
     nchunk = *(int32_t*)(src + trailer_offset);
-    chunk_offset = *(int64_t*)(src + trailer_offset + sizeof(int32_t));
+    memcpy(&chunk_offset, src + trailer_offset + sizeof(int32_t), sizeof(int64_t));
     // Get the csize of the nblock
     int32_t *block_csizes = (int32_t *)(src + trailer_offset + sizeof(int32_t) + sizeof(int64_t));
     int32_t block_csize = block_csizes[nblock];

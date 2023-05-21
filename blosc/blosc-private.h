@@ -91,7 +91,7 @@ static inline int32_t sw32_(const void* pa) {
 
   bool little_endian = is_little_endian();
   if (little_endian) {
-    idest = *(int32_t *)pa;
+    memcpy(&idest, pa, sizeof(int32_t));
   }
   else {
 #if defined (__GNUC__)
@@ -114,15 +114,18 @@ static inline void _sw32(void* dest, int32_t a) {
   uint8_t* dest_ = (uint8_t*)dest;
   uint8_t* pa = (uint8_t*)&a;
 
+
   bool little_endian = is_little_endian();
   if (little_endian) {
-    *(int32_t *)dest_ = a;
+    memcpy(dest, &a, sizeof(int32_t));
   }
   else {
 #if defined (__GNUC__)
-    *(int32_t *)dest_ = __builtin_bswap32(*(unsigned int *)pa);
+    int32_t tmp = __builtin_bswap32(a);
+    memcpy(dest, &tmp, sizeof(int32_t));
 #elif defined (_MSC_VER) /* Visual Studio */
-    *(int32_t *)dest_ = _byteswap_ulong(*(unsigned int *)pa);
+    int32_t tmp = _byteswap_ulong(a);
+    memcpy(dest, &tmp, sizeof(int32_t));
 #else
     dest_[0] = pa[3];
     dest_[1] = pa[2];
