@@ -118,7 +118,7 @@ pub fn build(b: *std.build.Builder) !void {
     test_compress_roundtrip_exe.linkLibrary(libblosc2_static);
     b.installArtifact(test_compress_roundtrip_exe);
 
-    const test_compress_roundtrip_csv = try std.fs.cwd().readFileAlloc(b.allocator, "tests/test_compress_roundtrip.csv", 50_000);
+    const test_compress_roundtrip_csv = try b.build_root.handle.readFileAlloc(b.allocator, "tests/test_compress_roundtrip.csv", 50_000);
     var test_compress_roundtrip_csv_line_iter = std.mem.tokenize(u8, test_compress_roundtrip_csv, "\n");
     _ = test_compress_roundtrip_csv_line_iter.next(); // skip csv headers
     while (test_compress_roundtrip_csv_line_iter.next()) |line| {
@@ -258,7 +258,7 @@ pub fn build(b: *std.build.Builder) !void {
     b.installArtifact(test_getitem_exe);
 
     const test_getitem = b.step("test-getitem", "Run the test_getitem tests");
-    const test_getitem_csv = try std.fs.cwd().readFileAlloc(b.allocator, "tests/test_getitem.csv", 50_000);
+    const test_getitem_csv = try b.build_root.handle.readFileAlloc(b.allocator, "tests/test_getitem.csv", 50_000);
     var test_getitem_csv_line_iter = std.mem.tokenize(u8, test_getitem_csv, "\n");
     _ = test_getitem_csv_line_iter.next(); // skip csv headers
     while (test_getitem_csv_line_iter.next()) |line| {
@@ -442,7 +442,8 @@ pub fn build(b: *std.build.Builder) !void {
     b.installArtifact(test_shuffle_roundtrip_altivec_exe);
 
     const test_shuffle_roundtrip_altivec = b.step("test-shuffle-roundtrip-altivec", "Run the test_shuffle_roundtrip_altivec tests");
-    const test_shuffle_roundtrip_altivec_csv = try std.fs.cwd().readFileAlloc(b.allocator, "tests/test_shuffle_roundtrip_altivec.csv", 50_000);
+
+    const test_shuffle_roundtrip_altivec_csv = try b.build_root.handle.readFileAlloc(b.allocator, "tests/test_shuffle_roundtrip_altivec.csv", 50_000);
     var test_shuffle_roundtrip_altivec_csv_line_iter = std.mem.tokenize(u8, test_shuffle_roundtrip_altivec_csv, "\n");
     _ = test_shuffle_roundtrip_altivec_csv_line_iter.next(); // skip csv headers
     while (test_shuffle_roundtrip_altivec_csv_line_iter.next()) |line| {
@@ -465,7 +466,7 @@ pub fn build(b: *std.build.Builder) !void {
     b.installArtifact(test_shuffle_roundtrip_avx2_exe);
 
     const test_shuffle_roundtrip_avx2 = b.step("test-shuffle-roundtrip-avx2", "Run the test_shuffle_roundtrip_avx2 tests");
-    const test_shuffle_roundtrip_avx2_csv = try std.fs.cwd().readFileAlloc(b.allocator, "tests/test_shuffle_roundtrip_avx2.csv", 50_000);
+    const test_shuffle_roundtrip_avx2_csv = try b.build_root.handle.readFileAlloc(b.allocator, "tests/test_shuffle_roundtrip_avx2.csv", 50_000);
     var test_shuffle_roundtrip_avx2_csv_line_iter = std.mem.tokenize(u8, test_shuffle_roundtrip_avx2_csv, "\n");
     _ = test_shuffle_roundtrip_avx2_csv_line_iter.next(); // skip csv headers
     while (test_shuffle_roundtrip_avx2_csv_line_iter.next()) |line| {
@@ -488,7 +489,7 @@ pub fn build(b: *std.build.Builder) !void {
     b.installArtifact(test_shuffle_roundtrip_generic_exe);
 
     const test_shuffle_roundtrip_generic = b.step("test-shuffle-roundtrip-generic", "Run the test_shuffle_roundtrip_generic tests");
-    const test_shuffle_roundtrip_generic_csv = try std.fs.cwd().readFileAlloc(b.allocator, "tests/test_shuffle_roundtrip_generic.csv", 50_000);
+    const test_shuffle_roundtrip_generic_csv = try b.build_root.handle.readFileAlloc(b.allocator, "tests/test_shuffle_roundtrip_generic.csv", 50_000);
     var test_shuffle_roundtrip_generic_csv_line_iter = std.mem.tokenize(u8, test_shuffle_roundtrip_generic_csv, "\n");
     _ = test_shuffle_roundtrip_generic_csv_line_iter.next(); // skip csv headers
     while (test_shuffle_roundtrip_generic_csv_line_iter.next()) |line| {
@@ -511,7 +512,7 @@ pub fn build(b: *std.build.Builder) !void {
     b.installArtifact(test_shuffle_roundtrip_neon_exe);
 
     const test_shuffle_roundtrip_neon = b.step("test-shuffle-roundtrip-neon", "Run the test_shuffle_roundtrip_neon tests");
-    const test_shuffle_roundtrip_neon_csv = try std.fs.cwd().readFileAlloc(b.allocator, "tests/test_shuffle_roundtrip_neon.csv", 50_000);
+    const test_shuffle_roundtrip_neon_csv = try b.build_root.handle.readFileAlloc(b.allocator, "tests/test_shuffle_roundtrip_neon.csv", 50_000);
     var test_shuffle_roundtrip_neon_csv_line_iter = std.mem.tokenize(u8, test_shuffle_roundtrip_neon_csv, "\n");
     _ = test_shuffle_roundtrip_neon_csv_line_iter.next(); // skip csv headers
     while (test_shuffle_roundtrip_neon_csv_line_iter.next()) |line| {
@@ -534,7 +535,7 @@ pub fn build(b: *std.build.Builder) !void {
     b.installArtifact(test_shuffle_roundtrip_sse2_exe);
 
     const test_shuffle_roundtrip_sse2 = b.step("test-shuffle-roundtrip-sse2", "Run the test_shuffle_roundtrip_sse2 tests");
-    const test_shuffle_roundtrip_sse2_csv = try std.fs.cwd().readFileAlloc(b.allocator, "tests/test_shuffle_roundtrip_sse2.csv", 50_000);
+    const test_shuffle_roundtrip_sse2_csv = try b.build_root.handle.readFileAlloc(b.allocator, "tests/test_shuffle_roundtrip_sse2.csv", 50_000);
     var test_shuffle_roundtrip_sse2_csv_line_iter = std.mem.tokenize(u8, test_shuffle_roundtrip_sse2_csv, "\n");
     _ = test_shuffle_roundtrip_sse2_csv_line_iter.next(); // skip csv headers
     while (test_shuffle_roundtrip_sse2_csv_line_iter.next()) |line| {
