@@ -13,6 +13,11 @@ pub fn build(b: *std.build.Builder) !void {
 
     const build_plugins = b.option(bool, "build-plugins", "Build plugins") orelse false;
 
+    const lz4 = b.dependency("lz4", .{
+        .target = target,
+        .optimize = optimize,
+    });
+
     const libblosc2_static = b.addStaticLibrary(.{
         .name = "blosc2",
         .target = target,
@@ -49,7 +54,7 @@ pub fn build(b: *std.build.Builder) !void {
     libblosc2_static.addIncludePath("blosc");
     libblosc2_static.addIncludePath("include");
     libblosc2_static.linkLibC();
-    libblosc2_static.linkSystemLibrary("lz4");
+    libblosc2_static.linkLibrary(lz4.artifact("lz4hc"));
     libblosc2_static.installHeader("include/blosc2.h", "blosc2.h");
     libblosc2_static.installHeader("include/b2nd.h", "b2nd.h");
     libblosc2_static.installHeadersDirectory("include/blosc2", "blosc2");
