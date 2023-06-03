@@ -1,8 +1,10 @@
 bench/bench
-build*
+build*/
 .idea
 .*.swp
 cmake-build-*
 /blosc/config.h
 /doc/doxygen/xml/
 /doc/xml
+zig-cache/
+zig-out/

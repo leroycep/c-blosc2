@@ -23,15 +23,6 @@ pub fn build(b: *std.build.Builder) !void {
         .optimize = optimize,
     });
 
-    const config_header = b.addConfigHeader(.{ .style = .{ .cmake = .{ .path = "blosc/config.h.in" } } }, .{
-        .HAVE_ZSTD = !deactivate_zstd,
-        .HAVE_ZLIB = false,
-        .HAVE_ZLIB_NG = false,
-        .HAVE_IPP = false,
-        .HAVE_PLUGINS = false,
-        .BLOSC_DLL_EXPORT = "",
-    });
-
     const libblosc2_static = b.addStaticLibrary(.{
         .name = "blosc2",
         .target = target,
@@ -64,7 +55,6 @@ pub fn build(b: *std.build.Builder) !void {
         "blosc/timestamp.c",
         "blosc/trunc-prec.c",
     }, &.{});
-    libblosc2_static.addConfigHeader(config_header);
     libblosc2_static.defineCMacro("BLOSC_STRICT_ALIGN", "1");
     libblosc2_static.addIncludePath("blosc");
     libblosc2_static.addIncludePath("include");
@@ -74,11 +64,19 @@ pub fn build(b: *std.build.Builder) !void {
     libblosc2_static.installHeader("include/b2nd.h", "b2nd.h");
     libblosc2_static.installHeadersDirectory("include/blosc2", "blosc2");
     if (!deactivate_zstd) {
+        libblosc2_static.defineCMacro("HAVE_ZSTD", "1");
         libblosc2_static.linkLibrary(zstd.artifact("zstd"));
     }
     b.installArtifact(libblosc2_static);
 
     // Examples
+    const example_zstd_dict = b.addExecutable(.{
+        .name = "example_zstd_dict",
+    });
+    example_zstd_dict.addCSourceFile("examples/zstd_dict.c", &.{});
+    example_zstd_dict.linkLibrary(libblosc2_static);
+    b.installArtifact(example_zstd_dict);
+
     const example_b2nd_empty_shape_exe = b.addExecutable(.{
         .name = "b2nd-example_empty_shape",
     });
