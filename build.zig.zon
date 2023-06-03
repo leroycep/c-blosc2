@@ -6,5 +6,9 @@
 			.url = "https://github.com/leroycep/lz4/archive/a482e12f95fac801b50cdad4bcefc993e7ec0e19.tar.gz",
 			.hash = "122050df1ac3159f5268578d30ca82c820578f9daf4526e6ea84ed8eb56a43148b11",
 		},
+		.zstd = .{
+			.url = "https://github.com/leroycep/zstd/archive/5eebe0863f7c2a2b38bf536522ee9ad9a8ff1a3d.tar.gz",
+			.hash = "1220963ff66f68518fcf8b6a5d081693318ca1c13a7499331ea441efbec045c964a4",
+		},
 	},
 }
