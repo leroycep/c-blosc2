@@ -72,19 +72,25 @@ pub fn build(b: *std.build.Builder) !void {
         libblosc2_static.linkLibrary(zstd.artifact("zstd"));
     }
     if (build_plugins) {
+        libblosc2_static.defineCMacro("HAVE_PLUGINS", "1");
         libblosc2_static.addCSourceFiles(&.{
             "plugins/plugin_utils.c",
-        }, &.{});
-        libblosc2_static.addCSourceFiles(&.{
+
+            "plugins/filters/filters-registry.c",
+            "plugins/filters/bytedelta/bytedelta.c",
+            "plugins/filters/ndcell/ndcell.c",
+            "plugins/filters/ndmean/ndmean.c",
+
+            "plugins/codecs/codecs-registry.c",
             "plugins/codecs/ndlz/ndlz.c",
             "plugins/codecs/ndlz/ndlz4x4.c",
             "plugins/codecs/ndlz/ndlz8x8.c",
             "plugins/codecs/ndlz/xxhash.c",
+            "plugins/codecs/zfp/blosc2-zfp.c",
+
+            "plugins/tuners/tuners-registry.c",
         }, &.{});
         libblosc2_static.linkLibrary(zfp.artifact("zfp"));
-        libblosc2_static.addCSourceFiles(&.{
-            "plugins/codecs/zfp/blosc2-zfp.c",
-        }, &.{});
     }
     b.installArtifact(libblosc2_static);
 
