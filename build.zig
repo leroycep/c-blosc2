@@ -22,6 +22,10 @@ pub fn build(b: *std.build.Builder) !void {
         .target = target,
         .optimize = optimize,
     });
+    const zfp = b.dependency("zfp", .{
+        .target = target,
+        .optimize = optimize,
+    });
 
     const libblosc2_static = b.addStaticLibrary(.{
         .name = "blosc2",
@@ -66,6 +70,21 @@ pub fn build(b: *std.build.Builder) !void {
     if (!deactivate_zstd) {
         libblosc2_static.defineCMacro("HAVE_ZSTD", "1");
         libblosc2_static.linkLibrary(zstd.artifact("zstd"));
+    }
+    if (build_plugins) {
+        libblosc2_static.addCSourceFiles(&.{
+            "plugins/plugin_utils.c",
+        }, &.{});
+        libblosc2_static.addCSourceFiles(&.{
+            "plugins/codecs/ndlz/ndlz.c",
+            "plugins/codecs/ndlz/ndlz4x4.c",
+            "plugins/codecs/ndlz/ndlz8x8.c",
+            "plugins/codecs/ndlz/xxhash.c",
+        }, &.{});
+        libblosc2_static.linkLibrary(zfp.artifact("zfp"));
+        libblosc2_static.addCSourceFiles(&.{
+            "plugins/codecs/zfp/blosc2-zfp.c",
+        }, &.{});
     }
     b.installArtifact(libblosc2_static);
 

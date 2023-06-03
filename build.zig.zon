@@ -10,5 +10,9 @@
 			.url = "https://github.com/leroycep/zstd/archive/c6264b9f583a3c050e786ed6225b692b75ffd497.tar.gz",
 			.hash = "12201ebcb787f86aca282f335ac8d103fadbf3f0d9d8a1a4e89c4d56e9dfcb0313e9",
 		},
+		.zfp = .{
+			.url = "https://github.com/leroycep/zfp/archive/a250dfde78778db9a9a6b810591c7125e8dfc029.tar.gz",
+			.hash = "1220f129d0df633fd4c8c79010946ddacc21a38f9a04e29390613e1ea854f6be7c91",
+		},
 	},
 }
